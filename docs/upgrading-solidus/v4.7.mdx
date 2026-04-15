@@ -1,0 +1,76 @@
+---
+sidebar_position: -4.7
+---
+
+import MinimalRequirements from '@site/src/theme/MinimalRequirements';
+import PRLink from '@site/src/theme/PRLink';
+
+# Solidus v4.7 (2026-04-15)
+
+<MinimalRequirements ruby="3.2" rails="7.2" />
+
+We're excited to announce the release of Solidus v4.7.0!
+
+## 🚀 Key Highlights
+
+### In-Memory Order Updater
+The team at SuperGood has worked on getting this change ready for prime time for a while. Solidus now has an alternative order updater implementation that is optimized for reducing database interactions.
+
+Some of the reasons for why we are so excited about this change are:
+
+- **Increased performance for order updates -** By default, the new order updater makes fewer write calls to the database. This means that order- and checkout-related controller actions can resolve faster, with fewer round trips to the database server whenever an order is updated (which is a very often).
+- **Order update simulation -** By passing `persist: false`, to the in-memory order updater, an order can be recalculated and rolled back to its last state without any database writes. This enables stores to let administrators and customers preview changes to orders before accepting those changes.
+
+To use this you need to opt-in by updating the `order_recalculator_class` in your app configuration.
+
+## 📦 Component Updates
+
+### Solidus Core
+- Configurable stock quantifier
+- Allow optional passing of options to calculators
+- Prevent merging of non-frontend-viewable orders
+- Autosave changed shipping rates
+- Allow to overwrite track_state_change?
+- Make state change tracker a configurable class
+- Build discounted linte items in memory
+- Mark non-applicable promotion adjustments for destruction
+- Configurable Order Mergeable Scope
+- Allow to recalculate cart prices
+- Allow Rails 8.1
+- Fix return item initialization in backend
+- Remove product filters require
+- Add tax_category_id method to Spree::Product
+- In-memory order updater
+
+### Solidus Admin
+- Product option types list
+
+### Solidus Promotions
+- Changes to promotion condition API
+    - Combining the `applicable?` and `eligible?` checks
+- Open PR for a model to evaluate promotion eligibility without applying a promotion
+- Updates to promotion migrator to better handle duplicate codes
+- Changes to flatten promotion condition configuration
+- Validate promotion uniqueness per order
+- Deprecate promotion "level"
+- Fix to First Order promotion condition to not fail on canceled orders
+
+## 🔧 Technical Improvements
+
+### Testing & Development
+- Fix order walkthrough for iso uniqueness
+- Switched to `standardrb` for linting.
+
+### Dependencies
+- Ruby 3.2 is now required.
+- Rails 7.2 is minimal supported version. Up to Rails 8.1 is supported.
+
+## 🐛 Bug Fixes
+- Fix shipment adjustments not persisting on order recalculate
+
+## 🔄 Breaking Changes
+- All changes should be backwards compatible. If you encounter any breaking changes we missed, please let us know!
+
+---
+
+For the complete list of changes, see the [full changelog](https://github.com/solidusio/solidus/compare/v4.6.0...v4.7.0).
